@@ -1,0 +1,79 @@
+INPUT:
+- Insieme degli esami (ESAMI) {e1,e2, ... en}
+- # crediti (m)
+
+OUTPUT:
+- Sottoinsieme di ESAMI, tale che:
+	* Somma ESAMI.crediti == m
+	* Media ESAMI.voto sia massima
+	
+APPROCCIO 1 (il più "stupido")
+
+Ad ogni livello L della ricorsione, inserisco un esame
+in PARZIALE. Devo decidere quale -> li provo tutti
+
+SOLUZIONE PARZIALE = ad ogni livello L, PARZIALE sarà
+un sottoinsieme di esattamente L esami
+
+GENERAZIONE SOTTOPROBLEMI = aggiungere un nuovo esame
+a parziale, tra quelli che non ho ancora aggiunto
+	PARZIALE = PARZIALE + ESAMI(i)
+	
+L = 0 -> N scelte possibili
+	PARZIALE = {e1}
+		L = 1
+			PARZIALE = {e1,e2}
+				L = 2
+					PARZIALE = {e1,e2,e2}
+						[...]
+		L = 1
+			PARZIALE = {e1,e3}
+				L = 2
+					PARZIALE = {e1,e3,e2}
+						[...]		
+	PARZIALE = {e2}
+		L = 1
+			PARZIALE = {e2,e1}
+				[...]
+	[...]
+	PARZIALE = {en}
+	
+CASI TERMINALI
+
+1) L = N
+
+2) SE PARZIALE.sommaCrediti() == m
+	-> potrebbe essere una soluzione, controllo se è 
+	la soluzione migliore, calcolando la media voto
+
+	return
+   ELSE SE PARZIALE.sommaCrediti() > m
+    -> non può essere una soluzione -> esco dalla 
+    ricorsione
+    
+    return 
+    
+APPROCCIO 2 ("più furbo") -> complessità 2 ^ N
+
+Generare i sottoproblemi 1 per volta, scorrendo 
+l'insieme di esami di partenza in ordine, decidendo
+per ogni esame:
+ *se debba essere inserito
+ *se non debba essere inserito
+ 
+	
+IL LIVELLO DELLA RICORSIONE == ESAME DA CONSIDERARE
+
+L = 0 -> 2 scelte possibili
+	PARZIALE = {e1}
+		L = 1
+			PARZIALE = {e1,e2}
+			
+			PARZIALE = {e1}
+	
+	PARZIALE = {}
+		L = 1
+			PARZIALE = {e2}
+			
+			PARZIALE = {}
+
